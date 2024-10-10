@@ -1,53 +1,61 @@
+import "./App.css";
 import { useState } from "react";
-import Balance from "./components/calculatorTip/balance";
-import BillInput from "./components/calculatorTip/billInput";
-import ResetButton from "./components/calculatorTip/resetButton";
-import ServiceInput from "./components/calculatorTip/serviceInput";
+import Balance from "./components/balance";
+import BillInput from "./components/billInput";
+import ResetButton from "./components/resetButton";
+import ServiceInput from "./components/serviceInput";
 
 export default function App() {
   const [bill, setBill] = useState("");
-  const [percentage1, setPercentage1] = useState(0);
-  const [percentage2, setPercentage2] = useState(0);
-  // const [format, setFormat] = useState("")
+  const [Percentage1, setPercentage1] = useState(0);
+  const [Percentage2, setPercentage2] = useState(0);
 
-  const tipPercent = bill * ((percentage1 + percentage2) / 200);
+  const tipPercent = bill * ((Percentage1 + Percentage2) / 200);
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   const reset = () => {
-    // setFormat("")
     setBill(0);
     setPercentage1(0);
     setPercentage2(0);
-    // setFormat(bill, Percentage1, Percentage2)
   };
+
   return (
-    <>
-      <div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+      <h1 className="text-2xl font-bold mb-4">Tip Calculator</h1>
+      <div className="bg-white p-6 rounded-lg shadow-md space-y-6">
         <BillInput bill={bill} setBill={setBill} onSubmitted={handleSubmit} />
-        <br />
 
         <ServiceInput
           onSubmitted={handleSubmit}
-          percentage={percentage1}
+          percentage={Percentage1}
           onSelect={setPercentage1}
         >
-          <label>How did you like the service?</label>
+          <label className="text-gray-700 mb-2">
+            How did you like the service?
+          </label>
+          
         </ServiceInput>
-        <br />
 
         <ServiceInput
           onSubmitted={handleSubmit}
-          percentage={percentage2}
+          percentage={Percentage2}
           onSelect={setPercentage2}
         >
-          <label>How did your friend like the service?</label>
+          <label className="text-gray-700 mb-2">
+            How did your friend like the service?
+          </label>
+         
         </ServiceInput>
+
+        {bill > 0 && 
         <Balance bill={bill} tipPercent={tipPercent} />
+        }
+
         <ResetButton reset={reset} />
       </div>
-    </>
+    </div>
   );
 }
